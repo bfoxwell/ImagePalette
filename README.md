@@ -26,6 +26,7 @@ Simply add the following to your ```composer.json``` file:
     "brianmcdo/image-palette": "dev-master"
 }
 ```
+and then run ```composer update```
 
 ## Usage
 
