@@ -376,6 +376,31 @@ class ImagePalette implements IteratorAggregate
         // take the best hits
         return array_slice($this->palette, 0, $paletteLength, true);
     }
+
+    /**
+     * Returns the whitelisted colors shares
+     * @param  bool $ignoreNull
+     * @return array
+     */
+    public function getShares($ignoreNull = true)
+    {
+        $shares = [];
+
+        $total = array_sum(array_values($this->whiteList));
+
+        foreach ($this->whiteList as $color => $count) {
+            if (!$count && $ignoreNull) {
+                continue;
+            }
+
+            $shares[$color] = [
+                'count' => $count,
+                'percent' => $count / $total * 100,
+            ];
+        }
+
+        return $shares;
+    }
     
     /**
      * Returns a json encoded version of the palette
