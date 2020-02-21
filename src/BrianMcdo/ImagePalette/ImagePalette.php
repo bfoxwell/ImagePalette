@@ -170,30 +170,23 @@ class ImagePalette implements IteratorAggregate
 	 */
     protected function setWorkingImageGD()
     {
-        $extension = pathinfo($this->file, PATHINFO_EXTENSION);
-
-        switch (strtolower($extension))
-        {
-            case "png":
-                $this->loadedImage = imagecreatefrompng($this->file);
-                break;
-
-            case "jpg":
-            case "jpeg":
-                $this->loadedImage = imagecreatefromjpeg($this->file);
-                break;
-
-            case "gif":
-                $this->loadedImage = imagecreatefromgif($this->file);
-                break;
-
-            case "bmp":
-                $this->loadedImage = imagecreatefrombmp($this->file);
-                break;
-
-            default:
-                throw new UnsupportedFileTypeException("The file type .$extension is not supported.");
-        }
+        $type = exif_imagetype($this->file);
+		switch ($type) {
+			case IMAGETYPE_JPEG:
+				$this->loadedImage = imagecreatefromjpeg($this->file);
+				break;
+			case IMAGETYPE_PNG:
+				$this->loadedImage = imagecreatefrompng($this->file);
+				break;
+			case IMAGETYPE_GIF:
+				$this->loadedImage = imagecreatefromgif($this->file);
+				break;
+			case IMAGETYPE_BMP:
+				$this->loadedImage = imagecreatefrombmp($this->file);
+				break;
+			default:
+                throw new UnsupportedFileTypeException("The file type {$this->file} is not supported.");
+		}
     }
 
 	/**
