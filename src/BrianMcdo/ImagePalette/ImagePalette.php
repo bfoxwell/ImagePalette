@@ -98,7 +98,7 @@ class ImagePalette implements IteratorAggregate
 	 * @param int $paletteLength
 	 * @param string $library
 	 */
-    public function __construct($file, $precision = 10, $paletteLength = 5, $library = 'gd')
+    public function __construct($file, $precision = 10, $paletteLength = 5, $library = 'gd', $whiteList = array())
     {
         $this->file = $file;
         $this->precision = $precision;
@@ -107,6 +107,10 @@ class ImagePalette implements IteratorAggregate
         // use provided libname or auto-detect
         $this->lib = $this->graphicsLibrary($library);
         
+        if (!empty($whiteList)) {
+            $this->whiteList = $whiteList;
+        }
+	    
         // create an array with color ints as keys
         $this->whiteList = array_fill_keys($this->whiteList, 0);
 
